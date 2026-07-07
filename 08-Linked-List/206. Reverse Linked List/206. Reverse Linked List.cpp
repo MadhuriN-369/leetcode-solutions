@@ -11,18 +11,19 @@
 11class Solution {
 12public:
 13    ListNode* reverseList(ListNode* head) {
-14        vector<int>arr;
+14        if(!head || !head->next) return head;
 15        ListNode* temp = head;
-16        while(temp){
-17            arr.push_back(temp->val);
-18            temp = temp->next;
-19        }
-20        reverse(arr.begin(), arr.end());
+16        stack<int>st;
+17        while(temp){
+18            st.push(temp->val);
+19            temp = temp->next;
+20        }
 21        temp = head;
-22        for(auto it: arr){
-23            temp->val = it;
+22        while(!st.empty()){
+23            temp->val = st.top();
 24            temp = temp->next;
-25        }
-26        return head;
-27    }
-28};
+25            st.pop();
+26        }
+27        return head;
+28    }
+29};
