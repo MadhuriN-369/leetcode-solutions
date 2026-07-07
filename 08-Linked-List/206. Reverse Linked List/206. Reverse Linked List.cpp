@@ -12,18 +12,15 @@
 12public:
 13    ListNode* reverseList(ListNode* head) {
 14        if(!head || !head->next) return head;
-15        ListNode* temp = head;
-16        stack<int>st;
-17        while(temp){
-18            st.push(temp->val);
-19            temp = temp->next;
-20        }
-21        temp = head;
-22        while(!st.empty()){
-23            temp->val = st.top();
-24            temp = temp->next;
-25            st.pop();
-26        }
-27        return head;
-28    }
-29};
+15        ListNode* prev = nullptr, *cur = head, *next = head->next;
+16        while(cur){
+17            next = cur->next;
+18            
+19            
+20            cur->next = prev;
+21            prev = cur;
+22            cur = next;
+23        }
+24        return prev;
+25    }
+26};
