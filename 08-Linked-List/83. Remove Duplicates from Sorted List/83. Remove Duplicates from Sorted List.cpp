@@ -16,17 +16,15 @@
 16        ListNode* temp = head->next;
 17        while(temp){
 18            if(temp->val == prev->val){
-19                //remove temp
-20                ListNode* dup = temp;
-21                prev->next = temp->next;
-22                temp = temp->next;
-23            }
-24            else{
-25                prev = temp;
-26                if(temp) temp = temp->next;
-27            }
-28            
-29        }
-30        return head;
-31    }
-32};
+19                prev->next = temp->next;
+20                temp = temp->next;
+21            }
+22            else{
+23                prev = temp;
+24                temp = temp->next;
+25            }
+26            
+27        }
+28        return head;
+29    }
+30};
