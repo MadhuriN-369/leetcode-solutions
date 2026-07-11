@@ -17,19 +17,21 @@
 17    int change(int target, vector<int>& coins) {
 18        // memset(dp, -1, sizeof(dp));
 19        int n = coins.size();
-20        vector<vector<long long>>dp(n+1, vector<long long>(target+1, 0));
-21        for(int i = 0; i <= n; i++) {
-22            dp[i][0] = 1;
-23        }
-24        
-25        for(int i = n-1; i >= 0; i--) {
-26            for(int amount = 1; amount <= target; amount++){
-27                unsigned long long nottake = dp[i+1][amount];
-28                unsigned long long take = 0;
-29                if(amount >= coins[i]) take = dp[i][amount-coins[i]];
-30                dp[i][amount] = take + nottake;
-31            }
-32        }
-33        return dp[0][target];
-34    }
-35};
+20        // vector<vector<long long>>dp(n+1, vector<long long>(target+1, 0));
+21        vector<long long>prev(target+1, 0), cur(target+1, 0);
+22        for(int i = 0; i <= n; i++) {
+23            cur[0] = 1;
+24        }
+25        
+26        for(int i = n-1; i >= 0; i--) {
+27            for(int amount = 1; amount <= target; amount++){
+28                unsigned long long nottake = prev[amount];
+29                unsigned long long take = 0;
+30                if(amount >= coins[i]) take = cur[amount-coins[i]];
+31                cur[amount] = take + nottake;
+32            }
+33            prev = cur;
+34        }
+35        return prev[target];
+36    }
+37};
