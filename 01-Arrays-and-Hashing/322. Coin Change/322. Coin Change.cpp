@@ -8,7 +8,7 @@
 8        }
 9        if(dp[idx][amount] != -1) return dp[idx][amount];
 10        int nottake = 0 + solve(idx+1, coins, amount);
-11        int take = INT_MAX;
+11        int take = 1e8;
 12        if(coins[idx] <= amount) take = 1 + solve(idx, coins, amount-coins[idx]);
 13        return dp[idx][amount] = min(take, nottake);
 14    }
