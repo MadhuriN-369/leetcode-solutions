@@ -1,6 +1,6 @@
 1class Solution {
 2public:
-3    string lcs(string &s1, string &s2) {
+3    string shortestCommonSupersequence(string s1, string s2) {
 4        int n = s1.size(), m = s2.size();
 5        vector<vector<int>>dp(n+1, vector<int>(m+1, 0));
 6        for(int i = 1; i <= n; i++) {
@@ -41,11 +41,7 @@
 41            str = str + s2[j-1];
 42            j--;
 43        }
-44        cout<<str;
-45        reverse(str.begin(), str.end());
-46        return str;
-47    }
-48    string shortestCommonSupersequence(string str1, string str2) {
-49        return lcs(str1, str2);
-50    }
-51};
+44        reverse(str.begin(), str.end());
+45        return str;
+46    }
+47};
