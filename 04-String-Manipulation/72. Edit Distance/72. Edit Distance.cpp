@@ -21,29 +21,28 @@
 21    }
 22    int minDistance(string word1, string word2) {
 23        int n = word1.size(), m = word2.size();
-24        vector<vector<int>>dp(n+1, vector<int>(m+1, 0));
-25        for(int i = 0; i <= n; i++) {
-26            dp[i][m] = n-i;
-27        }
-28        for(int j = 0; j <= m; j++) {
-29            dp[n][j] = m-j;
-30        }
-31
-32        for(int i = n-1; i >= 0; i--) {
-33            for(int j = m-1; j >= 0; j--) {
-34                int res = 1e8;
-35                if(word1[i] == word2[j]) res = min(res, dp[i+1][j+1]);
-36                
-37                //insert
-38                res = min(res, 1 + dp[i][j+1]);
-39                //delete
-40                res = min(res, 1 + dp[i+1][j]);
-41                //replace
-42                if(word1[i] != word2[j]) res = min(res, 1 + dp[i+1][j+1]);
-43                dp[i][j] = res;
-44            }
-45        }
-46
-47        return dp[0][0];
-48    }
-49};
+24        vector<int>prev(m+1, 0);
+25        vector<int>cur(m+1, 0);
+26        for(int j = 0; j <= m; j++) {
+27            prev[j] = m-j;
+28        }
+29        for(int i = n-1; i >= 0; i--) {
+30            cur[m] = n-i;
+31            for(int j = m-1; j >= 0; j--) {
+32                int res = 1e8;
+33                if(word1[i] == word2[j]) res = min(res, prev[j+1]);
+34                
+35                //insert
+36                res = min(res, 1 + cur[j+1]);
+37                //delete
+38                res = min(res, 1 + prev[j]);
+39                //replace
+40                if(word1[i] != word2[j]) res = min(res, 1 + prev[j+1]);
+41                cur[j] = res;
+42            }
+43            prev = cur;
+44        }
+45
+46        return prev[0];
+47    }
+48};
