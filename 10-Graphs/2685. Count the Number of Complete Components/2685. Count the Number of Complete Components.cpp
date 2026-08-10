@@ -1,58 +1,53 @@
 1class DSU{
 2public:
-3    vector<int>parent, size, total_edges;
+3    vector<int>parent, size, edges;
 4    DSU(int n) {
 5        parent.resize(n);
 6        size.resize(n, 1);
-7        total_edges.resize(n, 0);
+7        edges.resize(n, 0);
 8        for(int i = 0; i < n; i++){
 9            parent[i] = i;
 10        }
 11    }
-12
-13    int findUpar(int u) {
-14        if(parent[u] == u) return u;
-15        return parent[u] = findUpar(parent[u]);
-16    }
-17
-18    void unionBySize(int u, int v) {
-19        int pu = findUpar(u);
-20        int pv = findUpar(v);
-21        if(pu == pv){
-22            total_edges[pu]++;
-23            return;
-24        }
-25        if(size[pu] >= size[pv]) {
-26            total_edges[pu] += total_edges[pv]+1;
-27            size[pu] += size[pv];
-28            parent[pv] = pu;
-29        }
-30        else{
-31            total_edges[pv] += total_edges[pu]+1;
-32            size[pv] += size[pu];
-33            parent[pu] = pv;
-34        }
-35    }
-36};
-37class Solution {
-38public:
-39    int countCompleteComponents(int n, vector<vector<int>>& edges) {
-40        DSU dsu(n);
-41
-42        for(auto it: edges) {
-43            int u = it[0];
-44            int v = it[1];
-45            //u->v v->u
-46            dsu.unionBySize(u, v);
-47        }
-48        int count = 0;
-49        for(int i = 0; i < n; i++) {
-50            if(dsu.parent[i] == i) {
-51                int m = dsu.size[i];
-52                int edge = dsu.total_edges[i];
-53                if((m*(m-1)/2) == edge) count++;
-54            }
-55        }
-56        return count;
-57    }
-58};
+12    int findUpar(int u){
+13        if(u == parent[u]) return u;
+14        return parent[u] = findUpar(parent[u]);
+15    }
+16    void unionBysize(int u, int v) {
+17        int pu = findUpar(u), pv = findUpar(v);
+18        if(pu == pv) {
+19            edges[pu]++;
+20            return;
+21        }
+22        if(size[pu] >= size[pv]){
+23            size[pu] += size[pv];
+24            parent[pv] = pu;
+25            edges[pu] += edges[pv] + 1;
+26        }
+27        else{
+28            size[pv] += size[pu];
+29            parent[pu] = pv;
+30            edges[pv] +=edges[pu]+1;
+31        }
+32    }
+33};
+34class Solution {
+35public:
+36    int countCompleteComponents(int n, vector<vector<int>>& edges) {
+37        DSU dsu(n);
+38        for(auto it: edges) {
+39            int u = it[0], v = it[1];
+40            //u - v
+41            dsu.unionBysize(u, v);
+42        }
+43        int count = 0;
+44        for(int i = 0; i < n; i++){
+45            if(dsu.parent[i] == i) {
+46                int edges = dsu.edges[i];
+47                int nodes = dsu.size[i];
+48                if(edges == nodes*(nodes-1)/2) count++;
+49            }
+50        }
+51        return count;
+52    }
+53};
