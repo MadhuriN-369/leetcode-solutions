@@ -10,16 +10,13 @@
 10 */
 11class Solution {
 12public:
-13    ListNode* reverseList(ListNode* head) {
-14        if(head == nullptr || head->next == nullptr) return head;
-15        ListNode* cur = head, *prev = nullptr, *next = head->next;
-16        while(cur != nullptr){
-17            ListNode*temp = cur;
-18            next = cur->next;
-19            cur->next = prev;
-20            prev = temp;
-21            cur = next;
-22        }
-23        return prev;
-24    }
-25};
+13    ListNode* reverse(ListNode* head, ListNode* prev){
+14        if(head == nullptr) return prev;
+15        ListNode* temp = head, *next = head->next;
+16        temp->next = prev;
+17        return reverse(next, temp);
+18    }
+19    ListNode* reverseList(ListNode* head) {
+20        return reverse(head, nullptr);
+21    }
+22};
