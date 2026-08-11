@@ -11,17 +11,25 @@
 11class Solution {
 12public:
 13    bool isPalindrome(ListNode* head) {
-14        vector<int>arr;
-15        ListNode* temp = head;
-16        while(temp != nullptr){
-17            arr.push_back(temp->val);
-18            temp = temp->next;
-19        }
-20        int start = 0, end = arr.size()-1;
-21        while(start < end){
-22            if(arr[start] != arr[end]) return false;
-23            start++; end--;
-24        }
-25        return true;
-26    }
-27};
+14        ListNode*slow = head, *fast = head;
+15        while(fast != nullptr && fast->next != nullptr){
+16            fast = fast->next->next;
+17            slow = slow->next;
+18        }
+19        //now the slow pointer is at the middle, let's reverse from middle to end
+20        ListNode* cur = slow, *prev = nullptr;
+21        while(cur != nullptr){
+22            ListNode*next = cur->next;
+23            cur->next = prev;
+24            prev = cur;
+25            cur = next;
+26        }
+27        ListNode* p1 = head, *p2 = prev;
+28        while(p1 != nullptr && p2 != nullptr){
+29            if(p1->val != p2->val) return false;
+30            p1 = p1->next;
+31            p2 = p2->next;
+32        }
+33        return true;
+34    }
+35};
