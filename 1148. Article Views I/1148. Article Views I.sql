@@ -1,0 +1,1 @@
+select distinct viewer_id as id from viewswhere author_id = viewer_idorder by viewer_id asc;
