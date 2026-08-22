@@ -1,0 +1,1 @@
+select product_name, year, price from sales s, product pwhere s.product_id = p.product_id;
