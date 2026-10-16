@@ -1,0 +1,1 @@
+select player_id, min(event_date) as first_login from activitygroup by player_idorder by event_date asc;
